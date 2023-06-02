@@ -1,0 +1,32 @@
+# fly.toml file generated for fiufit-metrics on 2023-06-02T15:11:41-03:00
+
+app = "fiufit-metrics"
+kill_signal = "SIGINT"
+kill_timeout = 5
+mounts = []
+primary_region = "gru"
+processes = []
+
+[[services]]
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = false
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+[env]
+  SERVICE_PORT = "8888"
+  DB_HOST = "fiufit-metrics-mongo.typxrqp.mongodb.net"
+  DB_NAME = "fiufit-metrics-mongo"
+  DB_USER = "fiufit-metrics"
