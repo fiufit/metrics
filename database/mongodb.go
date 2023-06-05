@@ -10,6 +10,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var DbName string
+
 func NewMongoDBClient() *mongo.Client {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 
@@ -28,9 +30,9 @@ func NewMongoDBClient() *mongo.Client {
 		dbHost = "mongo"
 	}
 
-	dbName := os.Getenv("DB_NAME")
-	if dbName == "" {
-		dbName = "mongo"
+	DbName = os.Getenv("DB_NAME")
+	if DbName == "" {
+		DbName = "mongo"
 	}
 
 	connectionUrl := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", dbUser, dbPassword, dbHost)
@@ -41,7 +43,7 @@ func NewMongoDBClient() *mongo.Client {
 		panic(err)
 	}
 
-	if err := client.Database(dbName).RunCommand(context.Background(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
+	if err := client.Database(DbName).RunCommand(context.Background(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
 		panic(err)
 	}
 	return client
