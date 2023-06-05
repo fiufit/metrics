@@ -33,7 +33,7 @@ func TestMetricsRepository_Create_Ok(t *testing.T) {
 	assert.Equal(t, testMetric.MetricType, createdMetric.MetricType)
 }
 
-func TestMetricsRepository_GetManyByMetricType_Ok(t *testing.T) {
+func TestMetricsRepository_Get_Ok(t *testing.T) {
 	defer testSuite.Truncate(metricsCollection)
 	ctx := context.Background()
 	db := testSuite.DB
