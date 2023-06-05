@@ -42,7 +42,7 @@ func (repo MetricsRepository) Get(ctx context.Context, req mContracts.GetMetrics
 		}
 	}
 
-	sort := bson.D{{"timestamp", 1}}
+	sort := bson.D{{Key: "timestamp", Value: 1}}
 	opts := options.Find().SetSort(sort)
 
 	cursor, err := repo.db.Find(ctx, filter, opts)

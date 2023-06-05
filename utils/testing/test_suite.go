@@ -84,5 +84,5 @@ func (ts TestSuite) TearDown() {
 }
 
 func (ts TestSuite) Truncate(dbName string, collection string) {
-	ts.DB.Database(dbName).Collection(collection).Drop(context.Background())
+	_ = ts.DB.Database(dbName).Collection(collection).Drop(context.Background())
 }
