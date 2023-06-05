@@ -105,7 +105,7 @@ func TestMetricsRepository_Get_Ok(t *testing.T) {
 		t.Run(tCase.description, func(t *testing.T) {
 			res, err := repo.Get(ctx, tCase.req)
 			assert.NoError(t, err)
-			assert.Equal(t, tCase.expectedResCount+1, len(res))
+			assert.Equal(t, tCase.expectedResCount, len(res))
 		})
 	}
 }
