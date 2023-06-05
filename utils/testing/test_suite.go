@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/fiufit/metrics/database"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 	"go.mongodb.org/mongo-driver/bson"
@@ -84,6 +83,6 @@ func (ts TestSuite) TearDown() {
 	}
 }
 
-func (ts TestSuite) Truncate(collection string) {
-	ts.DB.Database(database.DbName).Collection(collection).Drop(context.Background())
+func (ts TestSuite) Truncate(dbName string, collection string) {
+	ts.DB.Database(dbName).Collection(collection).Drop(context.Background())
 }

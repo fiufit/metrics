@@ -13,7 +13,7 @@ import (
 )
 
 func TestMetricsRepository_Create_Ok(t *testing.T) {
-	defer testSuite.Truncate(metricsCollection)
+	defer testSuite.Truncate(testDbName, metricsCollection)
 	ctx := context.Background()
 
 	db := testSuite.DB
@@ -34,7 +34,7 @@ func TestMetricsRepository_Create_Ok(t *testing.T) {
 }
 
 func TestMetricsRepository_Get_Ok(t *testing.T) {
-	defer testSuite.Truncate(metricsCollection)
+	defer testSuite.Truncate(testDbName, metricsCollection)
 	ctx := context.Background()
 	db := testSuite.DB
 	repo := NewMetricsRepository(db, testDbName, zaptest.NewLogger(t))
