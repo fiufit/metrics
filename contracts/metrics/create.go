@@ -1,6 +1,6 @@
 package metrics
 
 type CreateMetricRequest struct {
-	MetricType string
+	MetricType string `binding:"required"`
 	SubType    string
 }
