@@ -15,7 +15,7 @@ const metricsCollection = "metrics"
 
 type Metrics interface {
 	Get(ctx context.Context, req mContracts.GetMetricsRequest) (mContracts.GetMetricsResponse, error)
-	Create(ctx context.Context, req mContracts.GetMetricsResponse) error
+	Create(ctx context.Context, metric models.Metric) error
 }
 
 type MetricsRepository struct {
@@ -28,7 +28,6 @@ func NewMetricsRepository(db *mongo.Client, dbName string, logger *zap.Logger) M
 }
 
 func (repo MetricsRepository) Get(ctx context.Context, req mContracts.GetMetricsRequest) (mContracts.GetMetricsResponse, error) {
-
 	filter := bson.M{}
 	filter["type"] = req.MetricType
 
