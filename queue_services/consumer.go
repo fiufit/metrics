@@ -25,6 +25,11 @@ func NewMetricsConsumer(queueConn *amqp.Connection, topic string, metrics reposi
 
 func (mc MetricsConsumer) ConsumeMetrics(ctx context.Context) {
 	channel, err := mc.queueConn.Channel()
+	if err != nil {
+		mc.logger.Error("Unable to open amqp channel", zap.Error(err))
+		return
+	}
+
 	defer func(channel *amqp.Channel) {
 		err := channel.Close()
 		if err != nil {
@@ -37,11 +42,13 @@ func (mc MetricsConsumer) ConsumeMetrics(ctx context.Context) {
 		mc.logger.Error("Unable to declare amqp queue", zap.Error(err))
 		return
 	}
+
 	err = channel.QueueBind(queue.Name, "metric", mc.topic, false, nil)
 	if err != nil {
 		mc.logger.Error("Unable to bind amqp queue", zap.Error(err))
 		return
 	}
+
 	messages, err := channel.Consume(queue.Name, "", false, false, false, false, nil)
 	if err != nil {
 		mc.logger.Error("Unable to consume amqp channel", zap.Error(err))
