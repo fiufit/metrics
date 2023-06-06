@@ -21,7 +21,7 @@ func (h CreateMetric) Handle() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req metrics.CreateMetricRequest
 		err := ctx.ShouldBindJSON(&req)
-		validateErr := metrics.ValidateMetricTypes(req.MetricType, req.SubType)
+		validateErr := metrics.ValidateMetricTypes(req.MetricType, &req.SubType)
 		if err != nil || validateErr != nil {
 			ctx.JSON(http.StatusBadRequest, contracts.FormatErrResponse(contracts.ErrBadRequest))
 			return
