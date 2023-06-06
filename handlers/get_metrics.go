@@ -20,8 +20,8 @@ func NewGetMetrics(metrics repositories.Metrics) GetMetrics {
 func (h GetMetrics) Handle() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req metrics.GetMetricsRequest
-		validateErr := metrics.ValidateMetricTypes(req.MetricType, &req.SubType)
 		err := ctx.ShouldBindQuery(&req)
+		validateErr := metrics.ValidateMetricTypes(req.MetricType, &req.SubType)
 		if err != nil || validateErr != nil {
 			ctx.JSON(http.StatusBadRequest, contracts.FormatErrResponse(contracts.ErrBadRequest))
 			return
