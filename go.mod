@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/ory/dockertest/v3 v3.10.0
+	github.com/rabbitmq/amqp091-go v1.8.1
 	github.com/stretchr/testify v1.8.3
 	go.mongodb.org/mongo-driver v1.11.6
 	go.uber.org/zap v1.24.0

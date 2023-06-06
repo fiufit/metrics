@@ -2,23 +2,39 @@ package metrics
 
 import "errors"
 
-var validMetricTypes = map[string]struct{}{
-	"register":         {},
-	"login":            {},
-	"blocked":          {},
-	"password_recover": {},
-	"location":         {},
-	"new_training":     {},
-	"training_tagged":  {},
+const anySubtype = "any"
+const clearSubtype = ""
+
+var validMetricTypeSubtypes = map[string][]string{
+	"register":         {"mail", "federated_entity"},
+	"login":            {"mail", "federated_entity"},
+	"blocked":          {clearSubtype},
+	"password_recover": {clearSubtype},
+	"location":         {anySubtype},
+	"new_training":     {clearSubtype},
+	"training_tagged":  {"strength", "speed", "endurance", "lose weight", "gain weight", "sports"},
 }
 
-func ValidateMetricTypes(metricType string, subType string) error {
-	if _, ok := validMetricTypes[metricType]; !ok {
-		return errors.New("Invalid metric type")
-	}
-	if (metricType == "register" || metricType == "login") && (subType != "mail" && subType != "federated_entity") {
-		return errors.New("Invalid metric subtype")
+func ValidateMetricTypes(metricType string, subType *string) error {
+	validSubtypes, typeExists := validMetricTypeSubtypes[metricType]
+	if !typeExists {
+		return errors.New("invalid metric type")
 	}
 
-	return nil
+	if validSubtypes[0] == anySubtype {
+		return nil
+	}
+
+	if validSubtypes[0] == clearSubtype {
+		*subType = clearSubtype
+		return nil
+	}
+
+	for _, validSubType := range validSubtypes {
+		if validSubType == *subType {
+			return nil
+		}
+	}
+
+	return errors.New("invalid metric subtype")
 }
