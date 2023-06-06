@@ -27,6 +27,11 @@ func (h CreateMetric) Handle() gin.HandlerFunc {
 			return
 		}
 
-		h.metricsPublisher.PublishMetric(ctx, req)
+		if err := h.metricsPublisher.PublishMetric(ctx, req); err != nil {
+			ctx.JSON(http.StatusInternalServerError, contracts.FormatErrResponse(contracts.ErrInternal))
+			return
+		}
+
+		ctx.JSON(http.StatusOK, contracts.FormatOkResponse(""))
 	}
 }
