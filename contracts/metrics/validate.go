@@ -6,13 +6,13 @@ const anySubtype = "any"
 const clearSubtype = ""
 
 var validMetricTypeSubtypes = map[string][]string{
-	"register":         {"mail", "federated_entity"},
-	"login":            {"mail", "federated_entity"},
+	"register":         {"mail", "federated_entity", ""},
+	"login":            {"mail", "federated_entity", ""},
 	"blocked":          {clearSubtype},
 	"password_recover": {clearSubtype},
 	"location":         {anySubtype},
 	"new_training":     {clearSubtype},
-	"training_tagged":  {"strength", "speed", "endurance", "lose weight", "gain weight", "sports"},
+	"training_tagged":  {"strength", "speed", "endurance", "lose weight", "gain weight", "sports", ""},
 }
 
 func ValidateMetricTypes(metricType string, subType *string) error {
