@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  contracts.ErrPayload:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+    type: object
+  contracts.ErrResponse:
+    properties:
+      error:
+        $ref: '#/definitions/contracts.ErrPayload'
+    type: object
+  metrics.CreateMetricRequest:
+    properties:
+      subtype:
+        type: string
+      type:
+        type: string
+    required:
+    - type
+    type: object
+  models.Metric:
+    properties:
+      date_time:
+        type: string
+      subtype:
+        type: string
+      type:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: fiufit-metrics.fly.dev
+info:
+  contact: {}
+  description: Fiufit's Metrics service documentation. This API serves Fiufit usage
+    metrics for backoffice visualization.
+  title: Fiufit Metrics API
+  version: dev
+paths:
+  /{version}/metrics:
+    get:
+      consumes:
+      - application/json
+      description: Gets metrics with type/subtype/date filters.
+      parameters:
+      - description: API Version
+        in: path
+        name: version
+        required: true
+        type: string
+      - description: Metrics type
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: Metrics subtype
+        in: query
+        name: subtype
+        type: string
+      - description: Starting date
+        in: query
+        name: from
+        type: string
+      - description: Ending date
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Important Note: OK responses are wrapped in {"data": ... }'
+          schema:
+            items:
+              $ref: '#/definitions/models.Metric'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contracts.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/contracts.ErrResponse'
+      summary: Gets metrics.
+      tags:
+      - metrics
+    post:
+      consumes:
+      - application/json
+      description: Creates a new metric. It must have a valid type + subtype.
+      parameters:
+      - description: API Version
+        in: path
+        name: version
+        required: true
+        type: string
+      - description: Body params
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/metrics.CreateMetricRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Important Note: OK responses are wrapped in {"data": ... }'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contracts.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/contracts.ErrResponse'
+      summary: Creates a new metric.
+      tags:
+      - metrics
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

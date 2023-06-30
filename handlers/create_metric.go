@@ -17,6 +17,19 @@ func NewCreateMetric(metricsPublisher queue_services.MetricsPublisher) CreateMet
 	return CreateMetric{metricsPublisher: metricsPublisher}
 }
 
+// Create Metric godoc
+//
+//	@Summary		Creates a new metric.
+//	@Description	Creates a new metric. It must have a valid type + subtype.
+//	@Tags			metrics
+//	@Accept			json
+//	@Produce		json
+//	@Param			version								path		string								true	"API Version"
+//	@Param			payload								body		metrics.CreateMetricRequest	true	"Body params"
+//	@Success		200									{object}	string	"Important Note: OK responses are wrapped in {"data": ... }"
+//	@Failure		400									{object}	contracts.ErrResponse
+//	@Failure		500									{object}	contracts.ErrResponse
+//	@Router			/{version}/metrics 	[post]
 func (h CreateMetric) Handle() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req metrics.CreateMetricRequest

@@ -17,6 +17,22 @@ func NewGetMetrics(metrics repositories.Metrics) GetMetrics {
 	return GetMetrics{metrics: metrics}
 }
 
+// Get Metrics godoc
+//
+//	@Summary		Gets metrics.
+//	@Description	Gets metrics with type/subtype/date filters.
+//	@Tags			metrics
+//	@Accept			json
+//	@Produce		json
+//	@Param			version								path		string								true	"API Version"
+//	@Param			type								query		string								true	"Metrics type"
+//	@Param			subtype								query		string								false	"Metrics subtype"
+//	@Param			from								query		string								false	"Starting date"
+//	@Param			to									query		string								false	"Ending date"
+//	@Success		200									{object}	metrics.GetMetricsResponse	"Important Note: OK responses are wrapped in {"data": ... }"
+//	@Failure		400									{object}	contracts.ErrResponse
+//	@Failure		500									{object}	contracts.ErrResponse
+//	@Router			/{version}/metrics 	[get]
 func (h GetMetrics) Handle() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req metrics.GetMetricsRequest
