@@ -1,0 +1,9 @@
+#RENAME THIS TO .env and remove this comment after changing the values for your environment
+
+DB_HOST=your-mongodb-host.net
+DB_NAME=mongo
+DB_PASSWORD=mongo
+DB_USER=fiufit-metrics
+CLOUDAMQP_URL=your-cloudamqp-url.com
+METRICS_QUEUE_TOPIC=amqp.topic
+SERVICE_PORT=8080
